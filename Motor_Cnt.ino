@@ -48,22 +48,6 @@ void motors_cb(const geometry_msgs::Twist &m_r){
     StepperDriver.setSpeed (left, wr);
     StepperDriver.setSpeed (right, wl);
   }
-  else if (m_r.linear.x <= 0 && m_r.angular.z >= 0){
-      wr=(1/(2*r))*(abs(m_r.angular.z)*L+abs(m_r.linear.x));
-      wl=(1/(2*r))*(abs(m_r.angular.z)*L-abs(m_r.linear.x));
-      StepperDriver.setDir (left, FORWARD);
-      StepperDriver.setDir (right, BACKWARD);
-      StepperDriver.setSpeed (left, wr);
-      StepperDriver.setSpeed (right, wl);
-    }
-    else if (m_r.linear.x <= 0 && m_r.angular.z <= 0){
-        wr=(1/(2*r))*(abs(m_r.angular.z)*L-abs(m_r.linear.x));
-        wl=(1/(2*r))*(abs(m_r.angular.z)*L+abs(m_r.linear.x));
-        StepperDriver.setDir (left, BACKWARD);
-        StepperDriver.setDir (right, FORWARD);
-        StepperDriver.setSpeed (left, wr);
-        StepperDriver.setSpeed (right, wl);
-      }
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("/cmd_vel", &motors_cb);
