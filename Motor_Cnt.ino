@@ -10,11 +10,6 @@
 
 axis_t right, left;
 
-void rotation(int wr, int ws, int wz, int vx){
-  wr=wz*(L/2*r)-(vx/r);
-  wl=wz*(L/2*r)+(vx/r);
-}
-
 void motors_cb(const geometry_msgs::Twist &m_r){
 
   if (m_r.linear.x >= 0 && m_r.angular.z = 0){
