@@ -9,7 +9,7 @@ ros::NodeHandle  nh; // allows to create publisher/subscriber
 //nav_msgs::Odometry mov;
 
 #define EN 8
-#define L 0.010 // distance between the two wheels of the robot
+#define L 0.100 // distance between the two wheels of the robot
 #define r 0.005 //radius of the wheel od the robot
 
 axis_t right, left;
@@ -33,16 +33,16 @@ void motors_cb(const geometry_msgs::Twist &m_r){
     StepperDriver.setSpeed (right, wl);
   }
   else if (m_r.linear.x >= 0 && m_r.angular.z >= 0){
-    wr=(1/(2*r))*(m_r.angular.z*L-m_r.linear.x);
-    wl=(1/(2*r))*(m_r.angular.z*L+m_r.linear.x);
+    wr=(1/(2*r))*(m_r.angular.z*L-m_r.linear.x*2);
+    wl=(1/(2*r))*(m_r.angular.z*L+m_r.linear.x*2);
     StepperDriver.setDir (left, FORWARD);
     StepperDriver.setDir (right, BACKWARD);
     StepperDriver.setSpeed (left, wr);
     StepperDriver.setSpeed (right, wl);
   }
   else if (m_r.linear.x >= 0 && m_r.angular.z <= 0){
-    wr=(1/(2*r))*(abs(m_r.angular.z)*L+m_r.linear.x);
-    wl=(1/(2*r))*(abs(m_r.angular.z)*L-m_r.linear.x);
+    wr=(1/(2*r))*(abs(m_r.angular.z)*L+m_r.linear.x*2);
+    wl=(1/(2*r))*(abs(m_r.angular.z)*L-m_r.linear.x*2);
     StepperDriver.setDir (left, BACKWARD);
     StepperDriver.setDir (right, FORWARD);
     StepperDriver.setSpeed (left, wr);
