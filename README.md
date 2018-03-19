@@ -115,3 +115,20 @@ void loop(){
   nh.spinOnce();
 }
 ~~~
+
+Now lets analize the code:
+
+~~~cpp
+#include <ros.h>
+#include <StepperDriver.h>
+#include <geometry_msgs/Twist.h>
+//#include <nav_msgs/Odometry.h>
+~~~
+
+In this part is included ros_libs that allows to use all the others library: geometry_msgs and nav_msgs.
+Is it also inlcuded StedderDriver that allows to control the stepper in syncronous way with the cnc shield.
+You can find the StepperDriver lirary here: [library folder](https://github.com/DiegoGiFo/Motor_Cnt/tree/master/StepperD_lib/StepperDriver).
+
+~~~cpp
+
+~~~
