@@ -10,7 +10,7 @@ geometry_msgs::Twist vel;
 
 #define EN 8
 #define L 0.100 // distance between the two wheels of the robot
-#define r 0.005 //radius of the wheel od the robot
+#define r 0.05 //radius of the wheel od the robot
 
 axis_t right, left;
 
