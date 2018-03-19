@@ -116,7 +116,7 @@ void loop(){
 }
 ~~~
 
-*** Now lets analize the code:
+Now lets analize the code:
 
 ~~~cpp
 #include <ros.h>
@@ -202,7 +202,7 @@ void motors_cb(const geometry_msgs::Twist &m_r){
   vel.linear.y=wl;
 }
 ~~~
-***In the callback function all computations of the velocity of rotation of the wheels are made.
+In the callback function all computations of the velocity of rotation of the wheels are made.
 declair at first wr and wl that are respectly the angular velocity of right and left wheel.
 After calculate the two values (wr,wf) need to set the direction of rotation of the motors(forward or backward) with the command StepperDriver.setDir().
 With the command StepperDriver.setSpeed() is setted the velocity of the motor.
