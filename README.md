@@ -143,7 +143,7 @@ Create a ROS node and declair a variable of type geometry_msgs/Twist.
 
 axis_t right, left;
 ~~~
-Define EN that is the enable pin of the stepper.
+Define EN that is the enable pin of the stepper./n
 Define L that is the length between the 2 wheels (cm).
 Define r that is the radius of the wheels (cm).
 
