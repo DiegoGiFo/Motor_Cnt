@@ -10,6 +10,7 @@ and i understood how to use it.
 Can find them here: [Step Motors test](https://github.com/DiegoGiFo/Step_Motor)
 
 - Understood the cinematics equations for the motion of the motors. The equation that I used is:
+![eq]=(http://www.sciweavers.org/upload/Tex2Img_1521467554/render.png? raw=true);
 
 - Write the final code that allows to control the two step motors receiving as inputs the linear velocity and he angular one of the topic cmd_vel.
 
