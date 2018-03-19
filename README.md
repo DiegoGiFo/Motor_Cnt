@@ -143,7 +143,7 @@ Create a ROS node and declair a variable of type geometry_msgs/Twist.
 
 axis_t right, left;
 ~~~
-Define EN that is the enable pin of the stepper./n
+Define EN that is the enable pin of the stepper.
 Define L that is the length between the 2 wheels (cm).
 Define r that is the radius of the wheels (cm).
 
@@ -208,3 +208,35 @@ After calculate the two values (wr,wf) need to set the direction of rotation of 
 With the command StepperDriver.setSpeed() is setted the velocity of the motor.
 
 At the end of the 6 cases of motors's motion at the variable vel are assigned the values of the 2 velocities, one angular and the other one linear.
+
+~~~cpp
+void setup ()
+{
+  //need to set the enable to LOW because if it is HIGH the motors are desabled
+  pinMode(EN, OUTPUT);
+  digitalWrite(EN, LOW);
+
+  StepperDriver.init ();
+
+  left = StepperDriver.newAxis (2, 5, 255, 200);
+  right = StepperDriver.newAxis (3, 6, 255, 200);
+
+  StepperDriver.enable(left);
+  StepperDriver.enable(right);
+
+  nh.initNode(); // initialize ROS node
+  nh.subscribe(sub);
+  nh.advertise(pub);
+}
+~~~
+In void setup sets the enable pin to LOW because if it is HIGH the motors are desabled,
+initializes the StepperDriver, sets the left and rigth motor and enable them.
+Initializes the ROS node and advertise the system that there is a publisher and a subscriber.
+
+~~~cpp
+void loop(){
+  pub.publish(&vel);
+  nh.spinOnce();
+}
+~~~
+In void loop publish the two velocities on the topic info_vel.
