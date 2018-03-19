@@ -35,30 +35,30 @@ void motors_cb(const geometry_msgs::Twist &m_r){
   else if (m_r.linear.x == 0 && m_r.angular.z <= 0){  //gira a destra
     wr=(1/(2*r))*(abs(m_r.angular.z)*L-m_r.linear.x*2);
     wl=(1/(2*r))*(abs(m_r.angular.z)*L+m_r.linear.x*2);
-    StepperDriver.setDir (left, FORWARD);
-    StepperDriver.setDir (right, BACKWARD);
+    StepperDriver.setDir (left, BACKWARD);
+    StepperDriver.setDir (right, FORWARD);
     StepperDriver.setSpeed (left, wr);
     StepperDriver.setSpeed (right, wl);
   }
   else if (m_r.linear.x == 0 && m_r.angular.z >= 0){  //gira a sinistra
     wr=(1/(2*r))*(m_r.angular.z*L+m_r.linear.x*2);
     wl=(1/(2*r))*(m_r.angular.z*L-m_r.linear.x*2);
-    StepperDriver.setDir (left, BACKWARD);
-    StepperDriver.setDir (right, FORWARD);
-    StepperDriver.setSpeed (left, wr);
-    StepperDriver.setSpeed (right, wl);
-  }
-  else if (m_r.linear.x > 0 && m_r.angular.z <= 0){
-    wr=(1/(2*r))*abs((abs(m_r.angular.z)*L-m_r.linear.x*2));
-    wl=(1/(2*r))*abs((abs(m_r.angular.z)*L+m_r.linear.x*2));
-    StepperDriver.setDir (left, BACKWARD);
+    StepperDriver.setDir (left, FORWARD);
     StepperDriver.setDir (right, BACKWARD);
     StepperDriver.setSpeed (left, wr);
     StepperDriver.setSpeed (right, wl);
   }
+  else if (m_r.linear.x > 0 && m_r.angular.z <= 0){
+    wr=(1/(2*r))*abs((abs(m_r.angular.z)*L+m_r.linear.x*2));
+    wl=(1/(2*r))*abs((abs(m_r.angular.z)*L-m_r.linear.x*2));
+    StepperDriver.setDir (left, FORWARD);
+    StepperDriver.setDir (right, FORWARD);
+    StepperDriver.setSpeed (left, wr);
+    StepperDriver.setSpeed (right, wl);
+  }
   else if (m_r.linear.x > 0 && m_r.angular.z >= 0){
-    wr=(1/(2*r))*abs((m_r.angular.z*L+m_r.linear.x*2));
-    wl=(1/(2*r))*abs((m_r.angular.z*L-m_r.linear.x*2));
+    wr=(1/(2*r))*abs((m_r.angular.z*L-m_r.linear.x*2));
+    wl=(1/(2*r))*abs((m_r.angular.z*L+m_r.linear.x*2));
     StepperDriver.setDir (left, FORWARD);
     StepperDriver.setDir (right, FORWARD);
     StepperDriver.setSpeed (left, wr);
