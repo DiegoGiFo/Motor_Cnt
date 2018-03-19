@@ -116,7 +116,9 @@ void loop(){
 }
 ~~~
 
-Now lets analize the code:
+### Now lets analize the code:
+
+## LIBRARIES
 
 ~~~cpp
 #include <ros.h>
@@ -128,6 +130,8 @@ Now lets analize the code:
 In this part is included ros_libs that allows to use all the others library: geometry_msgs and nav_msgs.
 Is it also inlcuded StedderDriver that allows to control the stepper in syncronous way with the cnc shield.
 You can find the StepperDriver lirary here: [library folder](https://github.com/DiegoGiFo/Motor_Cnt/tree/master/StepperD_lib/StepperDriver).
+
+## DECLARATION
 
 ~~~cpp
 ros::NodeHandle  nh; // allows to create publisher/subscriber
@@ -146,6 +150,9 @@ axis_t right, left;
 Define EN that is the enable pin of the stepper.
 Define L that is the length between the 2 wheels (cm).
 Define r that is the radius of the wheels (cm).
+Declare the two variables rigth and left of type axis_t.
+
+## CALLBACK FUNCTION
 
 ~~~cpp
 void motors_cb(const geometry_msgs::Twist &m_r){
@@ -209,6 +216,8 @@ With the command StepperDriver.setSpeed() is setted the velocity of the motor.
 
 At the end of the 6 cases of motors's motion at the variable vel are assigned the values of the 2 velocities, one angular and the other one linear.
 
+## VOID SETUP
+
 ~~~cpp
 void setup ()
 {
@@ -232,6 +241,8 @@ void setup ()
 In void setup sets the enable pin to LOW because if it is HIGH the motors are desabled,
 initializes the StepperDriver, sets the left and rigth motor and enable them.
 Initializes the ROS node and advertise the system that there is a publisher and a subscriber.
+
+## VOID LOOP
 
 ~~~cpp
 void loop(){
