@@ -43,7 +43,7 @@ void motors_cb(const geometry_msgs::Twist &m_r){
     StepperDriver.setSpeed (left, wr);
     StepperDriver.setSpeed (right, wl);
   }
-  else if (m_r.linear.x < 0 && m_r.angular.z == 0){ // va indietro
+  else if (m_r.linear.x < 0 && m_r.angular.z == 0){
     wr=(abs(m_r.linear.x)/r);
     wl=(abs(m_r.linear.x)/r);
     StepperDriver.setDir (left, BACKWARD);
@@ -51,7 +51,7 @@ void motors_cb(const geometry_msgs::Twist &m_r){
     StepperDriver.setSpeed (left, wr);
     StepperDriver.setSpeed (right, wl);
   }
-  else if (m_r.linear.x == 0 && m_r.angular.z <= 0){  //gira a destra
+  else if (m_r.linear.x == 0 && m_r.angular.z <= 0){
     wr=(1/(2*r))*(abs(m_r.angular.z)*L-m_r.linear.x*2);
     wl=(1/(2*r))*(abs(m_r.angular.z)*L+m_r.linear.x*2);
     StepperDriver.setDir (left, BACKWARD);
@@ -59,7 +59,7 @@ void motors_cb(const geometry_msgs::Twist &m_r){
     StepperDriver.setSpeed (left, wr);
     StepperDriver.setSpeed (right, wl);
   }
-  else if (m_r.linear.x == 0 && m_r.angular.z >= 0){  //gira a sinistra
+  else if (m_r.linear.x == 0 && m_r.angular.z >= 0){
     wr=(1/(2*r))*(m_r.angular.z*L+m_r.linear.x*2);
     wl=(1/(2*r))*(m_r.angular.z*L-m_r.linear.x*2);
     StepperDriver.setDir (left, FORWARD);
@@ -116,7 +116,7 @@ void loop(){
 }
 ~~~
 
-Now lets analize the code:
+*** Now lets analize the code:
 
 ~~~cpp
 #include <ros.h>
@@ -130,5 +130,81 @@ Is it also inlcuded StedderDriver that allows to control the stepper in syncrono
 You can find the StepperDriver lirary here: [library folder](https://github.com/DiegoGiFo/Motor_Cnt/tree/master/StepperD_lib/StepperDriver).
 
 ~~~cpp
-
+ros::NodeHandle  nh; // allows to create publisher/subscriber
+geometry_msgs::Twist vel;
+//nav_msgs::Odometry mov;
 ~~~
+Create a ROS node and declair a variable of type geometry_msgs/Twist.
+
+~~~cpp
+#define EN 8
+#define L 0.100 // distance between the two wheels of the robot
+#define r 0.05 //radius of the wheel od the robot
+
+axis_t right, left;
+~~~
+Define EN that is the enable pin of the stepper.
+Define L that is the length between the 2 wheels (cm).
+Define r that is the radius of the wheels (cm).
+
+~~~cpp
+void motors_cb(const geometry_msgs::Twist &m_r){
+  int wr,wl;
+  if (m_r.linear.x > 0 && m_r.angular.z == 0){ //va avanti
+    wr=(m_r.linear.x/r);
+    wl=(m_r.linear.x/r);
+    StepperDriver.setDir (left, FORWARD);
+    StepperDriver.setDir (right, FORWARD);
+    StepperDriver.setSpeed (left, wr);
+    StepperDriver.setSpeed (right, wl);
+  }
+  else if (m_r.linear.x < 0 && m_r.angular.z == 0){ // va indietro
+    wr=(abs(m_r.linear.x)/r);
+    wl=(abs(m_r.linear.x)/r);
+    StepperDriver.setDir (left, BACKWARD);
+    StepperDriver.setDir (right, BACKWARD);
+    StepperDriver.setSpeed (left, wr);
+    StepperDriver.setSpeed (right, wl);
+  }
+  else if (m_r.linear.x == 0 && m_r.angular.z <= 0){
+    wr=(1/(2*r))*(abs(m_r.angular.z)*L-m_r.linear.x*2);
+    wl=(1/(2*r))*(abs(m_r.angular.z)*L+m_r.linear.x*2);
+    StepperDriver.setDir (left, BACKWARD);
+    StepperDriver.setDir (right, FORWARD);
+    StepperDriver.setSpeed (left, wr);
+    StepperDriver.setSpeed (right, wl);
+  }
+  else if (m_r.linear.x == 0 && m_r.angular.z >= 0){
+    wr=(1/(2*r))*(m_r.angular.z*L+m_r.linear.x*2);
+    wl=(1/(2*r))*(m_r.angular.z*L-m_r.linear.x*2);
+    StepperDriver.setDir (left, FORWARD);
+    StepperDriver.setDir (right, BACKWARD);
+    StepperDriver.setSpeed (left, wr);
+    StepperDriver.setSpeed (right, wl);
+  }
+  else if (m_r.linear.x > 0 && m_r.angular.z <= 0){
+    wr=(1/(2*r))*abs((abs(m_r.angular.z)*L+m_r.linear.x*2));
+    wl=(1/(2*r))*abs((abs(m_r.angular.z)*L-m_r.linear.x*2));
+    StepperDriver.setDir (left, FORWARD);
+    StepperDriver.setDir (right, FORWARD);
+    StepperDriver.setSpeed (left, wr);
+    StepperDriver.setSpeed (right, wl);
+  }
+  else if (m_r.linear.x > 0 && m_r.angular.z >= 0){
+    wr=(1/(2*r))*abs((m_r.angular.z*L-m_r.linear.x*2));
+    wl=(1/(2*r))*abs((m_r.angular.z*L+m_r.linear.x*2));
+    StepperDriver.setDir (left, FORWARD);
+    StepperDriver.setDir (right, FORWARD);
+    StepperDriver.setSpeed (left, wr);
+    StepperDriver.setSpeed (right, wl);
+  }
+  vel.linear.x=wr;
+  vel.linear.y=wl;
+}
+~~~
+***In the callback function all computations of the velocity of rotation of the wheels are made.
+declair at first wr and wl that are respectly the angular velocity of right and left wheel.
+After calculate the two values (wr,wf) need to set the direction of rotation of the motors(forward or backward) with the command StepperDriver.setDir().
+With the command StepperDriver.setSpeed() is setted the velocity of the motor.
+
+At the end of the 6 cases of motors's motion at the variable vel are assigned the values of the 2 velocities, one angular and the other one linear.
