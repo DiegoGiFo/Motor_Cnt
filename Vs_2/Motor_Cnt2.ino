@@ -6,7 +6,7 @@ ros::NodeHandle  nh; // allows to create publisher/subscriber
 geometry_msgs::Twist vel;
 
 #define EN 8
-#define L 0.100 // distance between the two wheels of the robot
+#define L 0.20 // distance between the two wheels of the robot
 #define R 0.05 //radius of the wheel od the robot
 
 const float A = L/(2*R);
@@ -43,7 +43,6 @@ void set_motors( axis_t motor, float w )
 void motors_cb(const geometry_msgs::Twist &move)
 {
   float wr,wl;
-
 
   wr = A*move.angular.z + B*move.linear.x;
   wl = A*move.angular.z - B*move.linear.x;
@@ -82,8 +81,7 @@ void setup ()
 
 void loop()
 {
-
-  if((cnt%1) == 1)
+  if((cnt%10) == 1)
   {
     pub.publish(&vel);
   }
