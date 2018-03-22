@@ -2,11 +2,9 @@
 #include <ros.h>
 #include <StepperDriver.h>
 #include <geometry_msgs/Twist.h>
-//#include <nav_msgs/Odometry.h>
 
 ros::NodeHandle  nh; // allows to create publisher/subscriber
 geometry_msgs::Twist vel;
-//nav_msgs::Odometry mov;
 
 #define EN 8
 #define L 0.100 // distance between the two wheels of the robot
@@ -70,7 +68,6 @@ void motors_cb(const geometry_msgs::Twist &m_r){
 
 ros::Subscriber<geometry_msgs::Twist> sub("/cmd_vel", &motors_cb);
 ros::Publisher pub("/info_vel", &vel);
-//ros::Publisher pub("/odom", &mov);
 
 void setup ()
 {
