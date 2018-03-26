@@ -18,6 +18,4 @@ class Motor {
     axis_t motor;
 };
 
-
-
 #endif
