@@ -3,14 +3,14 @@
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Float32.h>
 #include "Motor.hpp"
+#include "Robot.hpp"
 
 
 ros::NodeHandle  nh; // allows to create publisher/subscriber
 geometry_msgs::Twist vel;
 std_msgs::Float32 msg;
 
-Motor right_mt(2, 5);
-Motor left_mt(3, 6);
+Robot robot(2,5,3,6);
 
 #define EN 8
 #define L 0.20f // distance between the two wheels of the robot
@@ -23,11 +23,7 @@ int cnt;
 
 void motors_cb(const geometry_msgs::Twist &move)
 {
-  const float w_right = A*move.angular.z + B*move.linear.x;
-  const float w_left = A*move.angular.z - B*move.linear.x;
-
-  right_mt.set_speed(w_right);
-  left_mt.set_speed(w_left);
+  robot.set_motors(move);
 
   cnt ++;
 

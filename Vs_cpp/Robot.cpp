@@ -10,10 +10,11 @@
 const float A = L/(2.0f*R);
 const float B = 1.0f/R;
 
-Motor right_mt(2,5);
-Motor left_mt(3,6);
 
-Robot::Robot(){
+
+Robot::Robot(int step1, int dir1, int step2, int dir2){
+  this->right_mt(step1,dir1);
+  this->left_mt(step2,dir2);
   this->w_right = 0.0;
   this->w_left = 0.0;
 }
@@ -22,14 +23,14 @@ Robot::Robot(){
    this->w_right = A*movements.angular.z + B*movements.linear.x;
    this->w_left = A*movements.angular.z - B*movements.linear.x;
 
-   right_mt.set_speed(this->w_right);
-   left_mt.set_speed(this->w_left);
+   this->right_mt.set_speed(this->w_right);
+   this->left_mt.set_speed(this->w_left);
 
  }
 
  void Robot::run_mt(){
 
-   left_mt.run();
-   right_mt.run();
+   this->left_mt.run();
+   this->right_mt.run();
 
  }
